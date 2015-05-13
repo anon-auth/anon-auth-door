@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/asya/android-workspace/CardReader1/Application/build/intermediates/exploded-aar/com.android.support/cardview-v7/21.0.2/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b017100da14f9c158c9f5f2f508333c224b24a7c">
+        <dex dex="/home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/classes-5ce8700d2b3256427382450b8155fcb55183eb0e.jar" />
+    </item>
+    <item
+        jar="/home/asya/android-workspace/CardReader1/Application/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.2/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="61965ae058916e6a57950dd61b0164dc866af19a">
+        <dex dex="/home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/classes-634b83fb02f5159bd1dbaa8dc049cb57685f558e.jar" />
+    </item>
+    <item
+        jar="/home/asya/android-workspace/CardReader1/Application/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.2/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d1bf02de1c56d942e7a9d093b8610ba1ef4128e3">
+        <dex dex="/home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/classes-7b671e34d70858d0a977d6c7e1ef62aad0ed7334.jar" />
+    </item>
+    <item
+        jar="/home/asya/android-workspace/CardReader1/Application/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.2/libs/internal_impl-21.0.2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="962e8b12569c56dbdcf8367eb4eac8bb129cd18f">
+        <dex dex="/home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-3fabfd227a51394305ebbafa36b6140a975b1348.jar" />
+    </item>
+    <item
+        jar="/home/asya/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.2/support-annotations-21.0.2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="99373741f99a0556ee293c41e8faa1ca3ae8a4e6">
+        <dex dex="/home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-6b83436c3b2bec3716e25adbab92413a7b2590ff.jar" />
+    </item>
+    <item
+        jar="/home/asya/android-workspace/CardReader1/Application/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.2/libs/internal_impl-21.0.2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9346da9fb778af9e451211bbc3541daced174ba7">
+        <dex dex="/home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-4c6bbd476037791582f6a4f7e1185a1097970904.jar" />
+    </item>
+
+</items>
