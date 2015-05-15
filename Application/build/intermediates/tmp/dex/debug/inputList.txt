@@ -1,6 +1,7 @@
 /home/asya/android-workspace/CardReader1/Application/build/intermediates/classes/debug
 /home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-4c6bbd476037791582f6a4f7e1185a1097970904.jar
 /home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-6b83436c3b2bec3716e25adbab92413a7b2590ff.jar
+/home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/libanonauth1d-79e725134159ad1e8ebd1bc77423cdd8b04c302a.jar
 /home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/classes-634b83fb02f5159bd1dbaa8dc049cb57685f558e.jar
 /home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/classes-5ce8700d2b3256427382450b8155fcb55183eb0e.jar
 /home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-3fabfd227a51394305ebbafa36b6140a975b1348.jar

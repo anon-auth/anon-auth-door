@@ -180,7 +180,6 @@ public class AccessCardReader implements NfcAdapter.ReaderCallback {
 
         return command;
     }
-
     /**
      * Utility class to convert a byte array to a hexadecimal string.
      *
