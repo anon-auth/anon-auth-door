@@ -9,6 +9,13 @@
         <dex dex="/home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/classes-5ce8700d2b3256427382450b8155fcb55183eb0e.jar" />
     </item>
     <item
+        jar="/home/asya/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.2/support-annotations-21.0.2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="99373741f99a0556ee293c41e8faa1ca3ae8a4e6">
+        <dex dex="/home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-6b83436c3b2bec3716e25adbab92413a7b2590ff.jar" />
+    </item>
+    <item
         jar="/home/asya/android-workspace/CardReader1/Application/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.2/classes.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -30,11 +37,11 @@
         <dex dex="/home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/internal_impl-21.0.2-3fabfd227a51394305ebbafa36b6140a975b1348.jar" />
     </item>
     <item
-        jar="/home/asya/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/21.0.2/support-annotations-21.0.2.jar"
+        jar="/home/asya/android-workspace/CardReader1/Application/libs/libanonauth1d.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="99373741f99a0556ee293c41e8faa1ca3ae8a4e6">
-        <dex dex="/home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/support-annotations-21.0.2-6b83436c3b2bec3716e25adbab92413a7b2590ff.jar" />
+        sha1="ca716e0b8ba2ba508b0d73dbae71d6553485260a">
+        <dex dex="/home/asya/android-workspace/CardReader1/Application/build/intermediates/pre-dexed/debug/libanonauth1d-79e725134159ad1e8ebd1bc77423cdd8b04c302a.jar" />
     </item>
     <item
         jar="/home/asya/android-workspace/CardReader1/Application/build/intermediates/exploded-aar/com.android.support/support-v13/21.0.2/libs/internal_impl-21.0.2.jar"

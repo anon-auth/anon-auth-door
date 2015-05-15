@@ -17,6 +17,7 @@
 package com.example.android.cardreader;
 
 import android.app.Activity;
+import android.content.Context;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -56,7 +57,7 @@ public class CardReaderFragment extends Fragment implements AccessCardReader.Acc
             mAccessField = (TextView) v.findViewById(R.id.card_account_field);
             mAccessField.setText("Waiting...");
 
-            mAccessCardReader = new AccessCardReader(this);
+            mAccessCardReader = new AccessCardReader(this, this.getActivity().getApplicationContext());
 
             // Disable Android Beam and register our card reader callback
             enableReaderMode();
@@ -96,15 +97,26 @@ public class CardReaderFragment extends Fragment implements AccessCardReader.Acc
     }
 
     @Override
-    //TODO: Set text to "Open door!" after verifying correct response
-    public void onResponseReceived(final String response) {
+    public void onResponseReceived(byte[] response) {
+        if(mAccessCardReader.protocolDoor.checkResponse(response)) {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAccessField.setText("Door open!");
+                    //If you read this, we'll buy you a beer
+                }
+            });
+        }
+        else {
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    mAccessField.setText("Access denied.");
+                }
+            });
+
+        }
         // This callback is run on a background thread, but updates to UI elements must be performed
         // on the UI thread.
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                mAccessField.setText(response);
-            }
-        });
     }
 }

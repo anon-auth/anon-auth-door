@@ -15,15 +15,28 @@
  */
 package com.example.android.cardreader;
 
+import android.content.Context;
 import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
 
 import com.example.android.common.logger.Log;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
+import android.util.Base64;
+
+import java.io.ObjectInputStream;
+import java.io.ByteArrayInputStream;
+import java.util.Scanner;
+
+import edu.mit.anonauth.ProtocolDoor;
 
 /**
  * Callback class, invoked when an NFC card is scanned while the device is running in reader mode.
@@ -41,16 +54,62 @@ public class AccessCardReader implements NfcAdapter.ReaderCallback {
     // "OK" status word sent in response to SELECT AID command (0x9000)
     private static final byte[] SELECT_OK_SW = {(byte) 0x90, (byte) 0x00};
 
-    // Weak reference to prevent retain loop. mAccountCallback is responsible for exiting
-    // foreground mode before it becomes invalid (e.g. during onPause() or onStop()).
-    private WeakReference<AccessCallback> mAccountCallback;
+    private static Context context;
+    //Hardcoded encoding of door information
+    ProtocolDoor protocolDoor;
+    private static final String DOOR_FILE = "doorInfo.txt";
 
-    public interface AccessCallback {
-        public void onResponseReceived(String account);
+    //Method to get a protocol door out of a string containing door information
+    public ProtocolDoor getDoor(String str) {
+        byte[] enc = Base64.decode(str, Base64.DEFAULT);
+        ByteArrayInputStream bi = new ByteArrayInputStream(enc);
+        ObjectInputStream si = null;
+        ProtocolDoor protocolDoor = null;
+        try {
+            si = new ObjectInputStream(bi);
+            protocolDoor = (ProtocolDoor) si.readObject();
+        } catch (Exception e) {
+            throw new RuntimeException("Deserialization error.");
+        }
+        return protocolDoor;
     }
 
-    public AccessCardReader(AccessCallback accessCallback) {
-        mAccountCallback = new WeakReference<AccessCallback>(accessCallback);
+     //Return hardcoded string representation of door information
+    public String loadDoorInfo(String fileName) {
+        InputStream doorStream;
+        try {
+            doorStream = context.getAssets().open(fileName);
+        } catch (IOException e) {
+            throw new RuntimeException("Door file not found.");
+        }
+        BufferedReader reader = new BufferedReader(new InputStreamReader(doorStream));
+        StringBuilder out = new StringBuilder();
+        String line = "";
+        try {
+            line = reader.readLine();
+        } catch (IOException e) {
+            throw new RuntimeException("Door file empty.");
+        }
+        try {
+            reader.close();
+        } catch (IOException e) {
+            throw new RuntimeException("Reader failed to close.");
+        }
+        return line;
+    }
+
+    // Weak reference to prevent retain loop. mAccessCallback is responsible for exiting
+    // foreground mode before it becomes invalid (e.g. during onPause() or onStop()).
+    private WeakReference<AccessCallback> mAccessCallback;
+
+    public interface AccessCallback {
+        public void onResponseReceived(byte[] response);
+    }
+
+    public AccessCardReader(AccessCallback accessCallback, Context ctx) {
+        mAccessCallback = new WeakReference<AccessCallback>(accessCallback);
+        context = ctx;
+        protocolDoor = getDoor(loadDoorInfo(DOOR_FILE));
     }
 
     /**
@@ -86,16 +145,13 @@ public class AccessCardReader implements NfcAdapter.ReaderCallback {
                 int resultLength = result.length;
                 byte[] statusWord = {result[resultLength-2], result[resultLength-1]};
                 byte[] payload = Arrays.copyOf(result, resultLength-2);
-                if (Arrays.equals(SELECT_OK_SW, statusWord)) {
-                    // The remote NFC device will immediately respond with its stored account number
-                    String accountNumber = new String(payload, "UTF-8");
-                    Log.i(TAG, "Received: " + accountNumber);
-                    // Inform CardReaderFragment of received account number
+                if (Arrays.equals(SELECT_OK_SW, statusWord)) { //We're good to go for sending more commands
+                    //Send command
+                    command = BuildBroaddcastApdu(protocolDoor.getBroadcast());
+                    Log.i(TAG, "Sending: " + ByteArrayToHexString(command));
+                    result = isoDep.transceive(command); //Get response back from card
+                    mAccessCallback.get().onResponseReceived(result); //Give response back to CardReaderFragment to verify HMAC
                 }
-                command = BuildBroaddcastApdu("ABBDD784540FADD843990AAABBBCCCDDDEEEFFF00099988877766655544433322211");
-                Log.i(TAG, "Sending: " + ByteArrayToHexString(command));
-                result = isoDep.transceive(command);
-                mAccountCallback.get().onResponseReceived(ByteArrayToHexString(result));
 
             } catch (IOException e) {
                 Log.e(TAG, "Error communicating with card: " + e.toString());
@@ -114,9 +170,15 @@ public class AccessCardReader implements NfcAdapter.ReaderCallback {
         return HexStringToByteArray(SELECT_APDU_HEADER + String.format("%02X", aid.length() / 2) + aid);
     }
 
-    public static byte[] BuildBroaddcastApdu(String points) {
+    public static byte[] BuildBroaddcastApdu(byte[] broadcast) {
         // Format: [CLASS | INSTRUCTION | PARAMETER 1 | PARAMETER 2 | LENGTH | DATA]
-        return HexStringToByteArray(BROADCAST_APDU_HEADER + String.format("%02X", points.length() / 2) + points);
+        byte[] header = HexStringToByteArray(BROADCAST_APDU_HEADER + String.format("%02X", broadcast.length));
+        byte[] command = new byte[header.length + broadcast.length];
+
+        System.arraycopy(header, 0, command, 0, header.length);
+        System.arraycopy(broadcast, 0, command, header.length, broadcast.length);
+
+        return command;
     }
 
     /**
